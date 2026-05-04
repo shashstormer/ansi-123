@@ -1,0 +1,19 @@
+- name: Install baseline packages
+  dnf:
+    name: "{{ packages_to_install }}"
+    state: present
+  tags: packages
+
+- name: Ensure firewalld is running
+  service:
+    name: firewalld
+    state: started
+    enabled: true
+  tags: services
+
+- name: Ensure chronyd is running
+  service:
+    name: chronyd
+    state: started
+    enabled: true
+  tags: services
