@@ -1,0 +1,20 @@
+- name: Configure all servers
+  hosts: all_servers
+  roles:
+    - role: common
+      tags: [packages, services]
+
+    - role: users
+      tags: [users]
+
+- name: Configure web servers
+  hosts: webservers
+  roles:
+    - role: webserver
+      tags: [web, firewall]
+
+- name: Configure DB servers
+  hosts: dbservers
+  roles:
+    - role: dbserver
+      tags: [db, firewall]

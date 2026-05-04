@@ -1,0 +1,35 @@
+- name: Install Apache
+  dnf:
+    name: httpd
+    state: present
+  tags: web
+
+- name: Deploy VirtualHost config
+  template:
+    src: vhost.conf.j2
+    dest: /etc/httpd/conf.d/vhost.conf
+  notify: restart apache
+  tags: web
+
+- name: Open HTTP service
+  ansible.posix.firewalld:
+    service: http
+    permanent: true
+    state: enabled
+    immediate: yes
+  tags: firewall
+
+- name: Open HTTPS service
+  ansible.posix.firewalld:
+    service: https
+    permanent: true
+    state: enabled
+    immediate: yes
+  tags: firewall
+
+- name: Ensure Apache is running
+  service:
+    name: httpd
+    state: started
+    enabled: true
+  tags: web

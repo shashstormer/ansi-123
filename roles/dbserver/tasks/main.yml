@@ -1,0 +1,50 @@
+- name: Install MySQL server
+  dnf:
+    name: mysql-server
+    state: present
+  tags: db
+
+- name: Start MySQL service
+  service:
+    name: mysqld
+    state: started
+    enabled: true
+  tags: db
+
+- name: Open MySQL port
+  ansible.posix.firewalld:
+    port: 3306/tcp
+    permanent: true
+    state: enabled
+    immediate: yes
+  tags: firewall
+
+- name: Install PyMySQL
+  dnf:
+    name: python3-PyMySQL
+    state: present
+
+- name: Set root password
+  community.mysql.mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/lib/mysql/mysql.sock
+
+- name: Create database
+  community.mysql.mysql_db:
+    name: "{{ mysql_db_name }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  tags: db
+
+- name: Create DB user
+  community.mysql.mysql_user:
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
+    priv: "{{ mysql_db_name }}.*:ALL"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  tags: db

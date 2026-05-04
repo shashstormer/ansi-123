@@ -1,0 +1,4 @@
+mysql_root_password: "StrongRootPass123"
+mysql_db_name: "prod_db"
+mysql_user: "app_user"
+mysql_password: "AppUserPass123"
