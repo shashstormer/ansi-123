@@ -1,0 +1,17 @@
+managed_users:
+  - name: devops1
+    uid: 1050
+    shell: /bin/bash
+    password: "$6$rounds=656000$abc123$hashedpasswordexample"
+
+  - name: devops2
+    uid: 1051
+    shell: /bin/bash
+    password: "$6$rounds=656000$xyz456$hashedpasswordexample"
+
+packages_to_install:
+  - vim
+  - curl
+  - wget
+  - git
+  - net-tools
