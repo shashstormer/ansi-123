@@ -1,0 +1,16 @@
+- name: Create managed users
+  user:
+    name: "{{ item.name }}"
+    uid: "{{ item.uid }}"
+    shell: "{{ item.shell }}"
+    password: "{{ item.password }}"
+    state: present
+  loop: "{{ managed_users }}"
+  tags: users
+
+- name: Deploy sudoers file
+  template:
+    src: sudoers.j2
+    dest: /etc/sudoers.d/devops
+    mode: '0440'
+  tags: users
